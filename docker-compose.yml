@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  app:
+    image: paulomarcio/php-fpm-7.3
+    container_name: laravel
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - mobi2buy
+
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: laravel-nginx
+    ports:
+      - "${PORT}:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - mobi2buy
+
+networks:
+  mobi2buy:
+    name: mobi2buy
+    driver: bridge
